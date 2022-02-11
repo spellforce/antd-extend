@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, Form } from 'antd';
 import PropTypes from 'prop-types';
@@ -25,6 +25,17 @@ const FormModal = params => {
     if (typeof children === 'function') {
       children = children(form, onCancel);
     }
+  }, []);
+
+  const listenToPopstate = () => {
+    onCancel();
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", listenToPopstate);
+    return () => {
+      window.removeEventListener("popstate", listenToPopstate);
+    };
   }, []);
 
   async function handleSubmit() {

@@ -13,16 +13,12 @@ const TipButton = props =>
     <Button size="small" {...props} title="" className={`${props.className} custom-button`} />
   );
 
-TipButton.Create = props => <TipButton title="Create" type="primary" icon={<PlusOutlined />} {...props} />;
+TipButton.Create = props => <TipButton title="New" type="primary" icon={<PlusOutlined />} {...props} />;
 TipButton.Add = TipButton.Create;
 
-TipButton.Update = props => <TipButton title="Update" icon={<EditOutlined />} {...props} />;
+TipButton.Update = props => <TipButton title="Edit" icon={<EditOutlined />} {...props} />;
 TipButton.Edit = TipButton.Update;
 
 TipButton.Delete = props => <TipButton title="Delete" type="danger" icon={<DeleteOutlined />} {...props} />;
-
-TipButton.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default TipButton;

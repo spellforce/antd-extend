@@ -22,7 +22,7 @@ const PageSelect = ({ data = [], api, filters = {}, searchKey, format, pageProps
   const [DV, setDV] = useState(defaultValue);
 
   useEffect(() => {
-    if (isAutoInit) {
+    if (isAutoInit && isServerPage) {
       search();
     }
   }, []);
@@ -133,7 +133,7 @@ const PageSelect = ({ data = [], api, filters = {}, searchKey, format, pageProps
 
   return (
     <Select
-      placeholder="Please Select"
+      placeholder="Please select"
       showSearch={!!searchKey}
       filterOption={false}
       onSearch={!!searchKey && handleSearch}

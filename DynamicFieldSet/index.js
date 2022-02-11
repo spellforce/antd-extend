@@ -3,17 +3,33 @@ import React from "react";
 import { Form, Input, Button, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
+const uniquePush = (source, data) => {
+  for (const i in source) {
+    if (source[i].required === data.required) {
+      return false;
+    }
+  }
+
+  source.push(data);
+};
+
 export default ({label, name, children, ...other}) => {
+  
+  if (other.required) {
+    other.rules || (other.rules = []);
+    const temp = { required: true, message: `${label} is required.` };
+    uniquePush(other.rules, temp);
+  }
+
   return (
     <Form.List
       name={name}
       {...other}
     >
       {(fields, { add, remove }, { errors }) => (
-        <Form.Item label={label}>
+        <Form.Item label={label} required={other.required}>
           {fields.map((field, index) => (
             <Form.Item
-              required={false}
               key={field.key}
             >
               <Space style={{ display: 'flex', marginBottom: 8 }} align="baseline">
@@ -25,6 +41,7 @@ export default ({label, name, children, ...other}) => {
                 }
                 <MinusCircleOutlined
                   className="dynamic-delete-button"
+                  style={{ color: 'red' }}
                   onClick={() => remove(field.name)}
                 />
               </Space>

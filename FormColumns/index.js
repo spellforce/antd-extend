@@ -100,7 +100,7 @@ const getSelect = v => {
   return (
     <Form.Item key={`key_${v.name}`} {...itemRest}>
       <Select
-        placeholder="Please Select"
+        placeholder="Please select"
         allowClear
         onChange={value => executeAction(value, actions)}
         {...rest}
@@ -126,15 +126,17 @@ const getDatepicker = (v, formA) => {
   const { form, offset, initialValue, ...itemRest } = v;
   const { type, format, className, onChange, isFormatValue = true, ...rest } = form;
 
-  if (initialValue) {
+  const temp = formA.getFieldValue(v.name) || initialValue;
+
+  if (temp) {
     if (isFormatValue) {
       formA.setFieldsValue({
-        [v.name]: moment(initialValue, format),
-        [`_hidden[${v.name}]`]: moment(initialValue).format(format),
+        [v.name]: moment(temp, format),
+        [`_hidden[${v.name}]`]: moment(temp).format(format),
       });
     } else {
       formA.setFieldsValue({
-        [v.name]: moment(initialValue, format),
+        [v.name]: moment(temp, format),
       });
     }
   }
@@ -211,6 +213,9 @@ const FormColumns = ({ columns, span = 12, form, row = true }) => {
     form.validateFields = () =>
     validateFields().then(values => {
       for (let i in values) {
+        if (typeof values[i] === "string") {
+          values[i] = values[i].trim();
+        }
         if (i.search(/^_hidden\[(\S+)]$/g) > -1) {
           const index = i.replace(reg, "$1");
           values[index] = values[i];
@@ -231,7 +236,7 @@ const FormColumns = ({ columns, span = 12, form, row = true }) => {
         return <Form.Item {...itemRest} label={null} name={null}>{() => getItem(innerForm)}</Form.Item>;
       }
       if (typeof innerForm === "function") {
-        return <Form.Item {...itemRest}>{innerForm}</Form.Item>;
+        return <Form.Item {...itemRest}>{() => innerForm()}</Form.Item>;
       }
       return <Form.Item {...itemRest}>{() => innerForm}</Form.Item>;
     } else {

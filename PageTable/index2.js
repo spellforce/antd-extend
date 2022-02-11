@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 import Axios from "axios";
 // import _ from "lodash";
 
+// Class PageTableStore {
+
+// }
+
 const PageTable = ({
   columns,
   api,

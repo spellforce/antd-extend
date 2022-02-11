@@ -4,7 +4,7 @@ import { Card, Form, Button, Row, Col, Tree } from "antd";
 import Modal from "../Modal";
 import FormColumns from "../FormColumns";
 import FormModal from "../FormModal";
-import { useAysnc } from "../Hooks/useAysnc";
+import { useAsyncLoading } from "../Hooks/useAsync";
 import { useForm } from "antd/lib/form/Form";
 
 const CUForm = ({ columns, form, formData: initialValues, isUpdate, actions }) => {
@@ -30,7 +30,7 @@ export default forwardRef(
       autoExpandParent: true,
     });
 
-    const [AysncTree, data = [], { refresh }] = useAysnc(() =>
+    const [AsyncTree, instance] = useAsyncLoading(() =>
       list().then(data => {
         if (treeState.selectedKeys.length === 0 && data.length) {
           setTreeState({ ...treeState, expandedKeys: [data[0].key] });
@@ -65,7 +65,7 @@ export default forwardRef(
           onOk: value => {
             return create({ ...value, parent_id: treeState.current.id }).then(() => {
               afterCreate && afterCreate(value, row);
-              refresh();
+              instance.refresh();
             });
           },
         });
@@ -77,13 +77,13 @@ export default forwardRef(
       updateFormInstance
         .validateFields()
         .then(values => update({ ...values, id: treeState.current.id }))
-        .then(refresh);
+        .then(instance.refresh);
     };
 
     const onDelete = () => {
       Modal.deleteConfirm(() => {
         destroy(treeState.current)
-          .then(refresh)
+          .then(instance.refresh)
           .then(() => {
             setTreeState({ ...treeState, current: {}, selectedKeys: [] });
             updateFormInstance.resetFields();
@@ -118,7 +118,7 @@ export default forwardRef(
                 New
               </Button>
             )}
-            <Button onClick={refresh} type="primary" size="small">
+            <Button onClick={() => { instance.refresh() }} type="primary" size="small">
               Refresh
             </Button>
           </div>
@@ -126,20 +126,19 @@ export default forwardRef(
       >
         <Row gutter={24}>
           <Col span={12} style={{ padding: 26 }}>
-            <AysncTree>
-              {data.length && (
-                <Tree
-                  onSelect={onSelect}
-                  selectedKeys={treeState.selectedKeys}
-                  expandedKeys={treeState.expandedKeys}
-                  onExpand={onExpand}
-                  treeData={data}
-                />
-              )}
+            <AsyncTree>
               {
-                data.length && console.log(data)
+                data => (
+                  <Tree
+                    onSelect={onSelect}
+                    selectedKeys={treeState.selectedKeys}
+                    expandedKeys={treeState.expandedKeys}
+                    onExpand={onExpand}
+                    treeData={data}
+                  />
+                )
               }
-            </AysncTree>
+            </AsyncTree>
           </Col>
           <Col span={12}>
             <Card style={{ padding: 26 }}>
