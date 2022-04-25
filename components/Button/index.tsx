@@ -14,13 +14,20 @@ interface Props extends ButtonProps {
 function Button(props: Props) {
   const [loading, setLoading] = useState(false);
   const { onClick, title, className, ...rest } = props;
+  let lock = false;
   const handleClick = async () => {
     if (!onClick) return;
     if (loading) return;
-    setLoading(true);
+
+    // 100 ms 内不播放动画，也可以判断onClick函数是否异步
+    setTimeout(() => {
+      if(!lock) setLoading(true);
+    }, 100);
+
     try {
       await onClick();
     } finally {
+      lock = true;
       setLoading(false);
     }
   };
