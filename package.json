@@ -1,6 +1,6 @@
 {
   "name": "antd-extend-zx",
-  "version": "1.1.20",
+  "version": "1.1.23",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -30,10 +30,17 @@
     ]
   },
   "dependencies": {
-    "antd": ">=4.x"
+    "antd": ">=4.x",
+    "react": ">=16",
+    "lodash": ">=4.17",
+    "@ant-design/icons": ">=4.7.0",
+    "react-dom": ">=16.4"
   },
   "peerDependencies": {
-    "antd": ">=4.x"
+    "antd": ">=4.x",
+    "react": ">=16",
+    "lodash": ">=4.17",
+    "@ant-design/icons": ">=4.7.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

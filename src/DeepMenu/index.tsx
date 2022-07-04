@@ -1,7 +1,7 @@
-/* eslint-disable no-restricted-globals */
+/* eslint-disable */
 import React from 'react';
 import { Menu, MenuProps } from 'antd';
-import queryString from 'query-string';
+import { parse } from '../Utils';
 
 const { SubMenu } = Menu;
 
@@ -141,7 +141,7 @@ const getFirstData = (data) => {
 
 const setBrowserUrl = (queryProps) => {
   let url = location.pathname;
-  const parsed = queryString.parse(location.search);
+  const parsed = parse(location.search);
   const params = { ...parsed, ...queryProps };
 
   let j = 0;
@@ -155,12 +155,12 @@ const setBrowserUrl = (queryProps) => {
 };
 
 const DeepMenu = (props: Props) => {
-  const parsed = queryString.parse(location.search);
+  const parsed = parse(location.search);
   const { data, openKeys, defaultSelectedKeys, selectedKeys, keyName, ...rest } = props;
   const [inOpenKeys, setOpenKeys] = React.useState(openKeys);
   const preSelectedKeys = [parsed[keyName]];
   // if selectedKeys is present, keys controled by outside.
-  const [inSelectedKeys, setSelectedKeys] = React.useState(
+  const [inSelectedKeys, setSelectedKeys]: any = React.useState(
     selectedKeys || defaultSelectedKeys || preSelectedKeys,
   );
   // const isInitialMount = useRef(true);

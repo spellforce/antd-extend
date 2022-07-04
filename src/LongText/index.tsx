@@ -43,7 +43,7 @@ interface Props {
    * @description 显示宽度
    * @default 280
    */
-  width?: number;
+  width?: any;
 }
 
 // const innerDimensions = (node) => {
@@ -60,7 +60,7 @@ interface Props {
 const LongText = (props: Props) => {
   // const ref: any = useRef();
   const { children, className, rows = 1, width } = props;
-  let text;
+  let text: any;
   let result = children;
 
   // useEffect(() => {

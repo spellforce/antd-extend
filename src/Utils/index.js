@@ -99,6 +99,27 @@ export function generateColTitle(columns) {
   return columns;
 }
 
+export function parse(querystring) {
+  var ret = {};
+  var reg = /([^&]*)=([^&]*)/g;
+  var matches;
+
+  while ((matches = reg.exec(querystring))) {
+    var key = matches[1];
+    var val = matches[2];
+
+    // 如果是多值
+    if (ret[key]) {
+      ret[key] = Array.isArray(ret[key]) ? ret[key] : [ret[key]];
+      ret[key].push(val);
+    } else {
+      ret[key] = val;
+    }
+  }
+
+  return ret;
+}
+
 export function generateTitle(dataIndex) {
   return toHump(_.capitalize(dataIndex), ' ').replace('Id', 'ID');
 }

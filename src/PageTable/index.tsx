@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Table, Spin, message, TableProps, Skeleton } from 'antd';
-import PropTypes from 'prop-types';
 import { generateTitle } from '../Utils';
 // import _ from "lodash";
 interface TableHookProps {
@@ -300,11 +299,6 @@ PageTable.defaultProps = {
 PageTable.usePageTable = () => {
   const tableRef = useRef({});
   return [tableRef.current];
-};
-
-PageTable.propTypes = {
-  columns: PropTypes.array.isRequired,
-  rowKey: PropTypes.string.isRequired,
 };
 
 export default PageTable;

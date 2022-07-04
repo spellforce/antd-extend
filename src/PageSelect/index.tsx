@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Select, Pagination, Spin, PaginationProps } from 'antd';
 
 const Option = Select.Option;
-let timeout;
+let timeout: any;
 // let DV = null;
-let locked = null;
+let locked: any = null;
 
 interface Props {
   /**
